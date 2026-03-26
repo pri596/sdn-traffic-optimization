@@ -1,32 +1,122 @@
-# Django-registration-and-login-system
-This web app has been developed using the popular Django framework and Bootstrap for the frontend. My motivation to build this project is so that I can learn about Django and tighten up my skills. This mini-app can be easily integrated into a bigger system project that needs to have a registration and login system.
+# SDN Traffic Optimization using Machine Learning
 
-### Basic Features of The App
-    
-* Register – Users can register and create a new profile
-* Login - Registered users can login using username and password
-* Social Apps Login – Users can login using their GitHub or Google account
-* User Profile - Once logged in, users can create and update additional information such as avatar and bio in the profile page
-* Update Profile – Users can update their information such as username, email, password, avatar and bio
-* Remember me – Cookie Option, users don’t have to provide credentials every time they hit the site
-* Forgot Password – Users can easily retrieve their password if they forget it 
-* Admin Panel – admin can CRUD users
+##  Overview
 
-![ScreenShot](https://user-images.githubusercontent.com/66206865/131695930-648342b0-010b-44b2-a419-15ad54d47869.png)
+Efficient traffic management is a critical challenge in Software Defined Networking (SDN), where dynamic network conditions can lead to congestion, latency, and suboptimal routing decisions.
 
-## Tutorial
-[Here](https://dev.to/earthcomfy/series/14274) is a tutorial on how to build this project.
+This project implements a **locally hosted web-based system** that integrates **machine learning with SDN simulation** to enable intelligent traffic prediction and optimization. The system provides an interactive interface to simulate network behavior and analyze performance metrics.
 
-### Quick Start
-To get this project up and running locally on your computer follow the following steps.
-1. Set up a python virtual environment
-2. Run the following commands
+---
+
+##  Objective
+
+The goal of this project is to:
+
+* Predict network traffic patterns using machine learning
+* Improve routing decisions through intelligent policy control
+* Provide a user interface for monitoring and analysis
+* Demonstrate integration of ML models within an SDN-like environment
+
+---
+
+##  System Architecture
+
+The system is designed as an end-to-end pipeline:
+
 ```
-$ pip install -r requirements.txt
-$ python manage.py migrate
-$ python manage.py createsuperuser
-$ python manage.py runserver
+User → Web Interface → SDN Simulator → ML Model → Traffic Prediction → QoS Policy → Output
 ```
-   
-3. Open a browser and go to http://localhost:8000/
+
+---
+
+##  System Components
+
+###  Web Application (Django)
+
+* Handles user interaction and routing
+* Provides dashboards and report views
+* Supports authentication and user management
+
+###  SDN Simulator
+
+* Simulates network traffic behavior
+* Generates data for prediction
+* Acts as a simplified SDN environment
+
+###  Machine Learning Model
+
+* Trained on network-related features
+* Predicts traffic conditions
+* Stored as a serialized model (`.pkl`)
+
+###  QoS Policy Module
+
+* Applies decision logic based on predictions
+* Simulates traffic optimization strategies
+
+---
+
+##  Features
+
+* Real-time traffic simulation interface
+* Performance metrics visualization
+* Basic reporting system
+* Integration of ML predictions into network decision flow
+
+---
+
+##  Key Insight
+
+This project demonstrates how machine learning can be integrated into SDN systems to enable **data-driven traffic management**, moving beyond static or rule-based approaches.
+
+---
+
+##  Limitations
+
+* Simplified SDN simulation (not a full Mininet/OpenFlow setup)
+* Local deployment only
+* Limited dataset and model tuning
+
+---
+
+##  Future Improvements
+
+* Integration with real SDN controllers (e.g., OpenDaylight, ONOS)
+* Advanced traffic prediction models
+* Deployment as a scalable web service
+* Real-time streaming data integration
+
+---
+
+##  Tech Stack
+
+* Python
+* Django
+* Machine Learning (Scikit-learn / model serialization)
+* HTML, CSS
+* SQLite (local database)
+
+---
+
+##  How to Run
+
+```bash
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+Then open:
+
+```
+http://127.0.0.1:8000/
+```
+
+---
+
+##  Conclusion
+
+This project showcases a system-level approach to combining **machine learning and networking concepts**, highlighting how predictive models can enhance decision-making in SDN environments.
+
+It reflects not just model development, but the integration of ML into a **functional application workflow**.
+alhost:8000/
 
