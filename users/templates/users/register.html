@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    :root {
+      --main-color: #FEA116;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe0c1, #f5c790);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #FormContainer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 800px;
+      max-width: 95%;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .ImgContainer {
+        border-radius: 10px;
+        background: url('/static/img/cyber1.jpg') no-repeat center center;
+        background-size: cover;
+}
+
+    form {
+      padding: 30px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--main-color);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .input-div {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .input-div label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .input-div input {
+      width: 100%;
+      padding: 10px 38px 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fffaf3;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .input-div input:focus {
+      border: 1.5px solid var(--main-color);
+      outline: none;
+      background-color: #fff;
+      box-shadow: 0 0 0 3px #fea1163d;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 36px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--main-color);
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: var(--main-color);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      align-self: center;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e38f07;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: var(--main-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .links a:hover {
+      color: #cc7800;
+    }
+
+    .alert {
+      background-color: #fff2e1;
+      border-left: 4px solid var(--main-color);
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .alert strong {
+      color: crimson;
+    }
+
+    @media (max-width: 768px) {
+      #FormContainer {
+        grid-template-columns: 1fr;
+      }
+
+      .ImgContainer {
+        display: none;
+      }
+
+      form {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="FormContainer">
+  <div class="ImgContainer"></div>
+  <form method="POST">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <div id="form_errors">
+        {% for key, value in form.errors.items %}
+          <strong>{{ value }}</strong><br>
+        {% endfor %}
+      </div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+
+    <h2>Register</h2>
+
+    <div class="input-div">
+      <label for="{{ form.first_name.id_for_label }}">First Name</label>
+      {{ form.first_name }}
+    </div>
+
+    <div class="input-div">
+      <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+      {{ form.last_name }}
+    </div>
+
+    <div class="input-div">
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+    </div>
+
+    <div class="input-div">
+      <label for="{{ form.username.id_for_label }}">Username</label>
+      {{ form.username }}
+    </div>
+
+    <div class="input-div">
+      <label for="{{ form.password1.id_for_label }}">Password</label>
+      {{ form.password1 }}
+      <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+    </div>
+
+    <div class="input-div">
+      <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+      {{ form.password2 }}
+      <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+    </div>
+
+    <button type="submit">Register</button>
+
+    <div class="links">
+      <a href="{% url 'login' %}">Already have an account? Login</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  function togglePassword(icon) {
+    const input = icon.previousElementSibling;
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
+
+

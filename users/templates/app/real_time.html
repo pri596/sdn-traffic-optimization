@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time Network Dashboard</title>
+    <style>
+        body { font-family: Arial; padding: 25px; background: #f2f2f2; }
+        h2 { margin-bottom: 15px; }
+
+        /* Prediction box */
+        .box { width: 500px; padding: 20px; border-radius: 10px; background: #fff; box-shadow: 0 0 10px #ccc; margin-bottom: 20px; }
+        .row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 16px; }
+        .prediction { text-align: center; padding: 15px; font-size: 22px; font-weight: bold; border-radius: 8px; margin-top: 10px; }
+        .attack { background: #ff4d4d; color: white; }
+        .normal { background: #4CAF50; color: white; }
+
+        /* Table */
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; background: #fff; box-shadow: 0 0 10px #ccc; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+        .REAL_TIME { background-color: #d4edda; }       /* Greenish for high priority */
+        .BULK { background-color: #fff3cd; }           /* Yellowish */
+        .BACKGROUND { background-color: #f8d7da; }     /* Reddish */
+    </style>
+</head>
+<body>
+
+<h2>🔍 Real-Time Network Activity</h2>
+
+<!-- Prediction box -->
+<div class="box">
+    <div class="row"><span>Source IP:</span> <span id="src_ip">-</span></div>
+    <div class="row"><span>Destination IP:</span> <span id="dst_ip">-</span></div>
+    <div class="row"><span>Protocol:</span> <span id="protocol">-</span></div>
+    <div class="row"><span>Duration (ms):</span> <span id="duration_ms">-</span></div>
+    <div class="row"><span>Packet Count:</span> <span id="packet_count">-</span></div>
+    <div class="row"><span>Bytes:</span> <span id="bytes">-</span></div>
+    <div id="prediction_box" class="prediction">Waiting...</div>
+</div>
+
+<!-- Dashboard table -->
+<h2>📊 Traffic Dashboard</h2>
+<table id="trafficTable">
+    <thead>
+        <tr>
+            <th>Src IP</th>
+            <th>Dst IP</th>
+            <th>Protocol</th>
+            <th>Duration</th>
+            <th>Packets</th>
+            <th>Bytes</th>
+            <th>Prediction</th>
+            <th>Intent</th>
+            <th>Priority</th>
+            <th>Queue</th>
+            <th>Path</th>
+            <th>SDN Status</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+async function fetchRealtime() {
+    try {
+        const response = await fetch("/api/realtime/");
+        const result = await response.json();
+        if (result.status === "success") {
+            const data = result.data;
+
+            // Update prediction box
+            document.getElementById("src_ip").innerText = data.src_ip;
+            document.getElementById("dst_ip").innerText = data.dst_ip;
+            document.getElementById("protocol").innerText = data.protocol === 1 ? "TCP" : (data.protocol === 2 ? "UDP" : "Unknown");
+            document.getElementById("duration_ms").innerText = data.duration_ms;
+            document.getElementById("packet_count").innerText = data.packet_count;
+            document.getElementById("bytes").innerText = data.bytes;
+
+            const predBox = document.getElementById("prediction_box");
+            predBox.innerText = data.prediction;
+            predBox.className = "prediction " + (data.prediction === "ATTACK" ? "attack" : "normal");
+
+            // Update dashboard table
+            const tbody = document.querySelector("#trafficTable tbody");
+            tbody.innerHTML = "";  // Clear previous
+            const row = document.createElement("tr");
+            row.className = data.intent; // Color-code based on intent
+            row.innerHTML = `
+                <td>${data.src_ip}</td>
+                <td>${data.dst_ip}</td>
+                <td>${data.protocol === 1 ? "TCP" : (data.protocol === 2 ? "UDP" : "Unknown")}</td>
+                <td>${data.duration_ms}</td>
+                <td>${data.packet_count}</td>
+                <td>${data.bytes}</td>
+                <td>${data.prediction}</td>
+                <td>${data.intent}</td>
+                <td>${data.priority}</td>
+                <td>${data.queue}</td>
+                <td>${data.path}</td>
+                <td>${data.sdn_status}</td>
+            `;
+            tbody.appendChild(row);
+        }
+    } catch (err) {
+        console.error("Error fetching realtime data:", err);
+    }
+}
+
+// Refresh every 2 seconds
+setInterval(fetchRealtime, 2000);
+fetchRealtime();
+</script>
+
+</body>
+</html>

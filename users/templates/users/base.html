@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
+    <title>{% block title %}WSN Attack Detection{% endblock %}</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f0f; /* Deep dark background */
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #0b1e35;
+            border-bottom: 2px solid #00f2ff;
+            box-shadow: 0 0 10px #00f2ff55;
+        }
+
+        .navbar-brand {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #00f2ff !important;
+            text-shadow: 0 0 5px #00f2ff, 0 0 10px #00f2ff;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffdd57 !important;
+            text-shadow: 0 0 5px #ffdd57;
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            border: 1px solid #00f2ff44;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 0 25px #00f2ff22;
+        }
+
+        h1, h2, h3 {
+            color: #00f2ff;
+            text-shadow: 0 0 5px #00f2ff;
+        }
+
+        .btn-primary {
+            background-color: #00f2ff;
+            border-color: #00c9d8;
+            color: #000;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #00c9d8;
+            border-color: #00a3b0;
+            box-shadow: 0 0 10px #00f2ffaa;
+        }
+
+        .alert {
+            background-color: #292929;
+            border-left: 4px solid #ffdd57;
+            color: #fff;
+        }
+
+        .close {
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #0b1e35;
+            color: #ccc;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid #00f2ff44;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark px-lg-5">
+        <a href="{% url 'users-home' %}" class="navbar-brand">
+            <i class="fas fa-shield-alt"></i> <span style="color: #ffdd57;">WSN</span> ATTACK
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{% url 'Basic_report' %}" class="nav-link">Basic Report</a></li>
+                    <li class="nav-item"><a href="{% url 'Metrics_report' %}" class="nav-link">Metrics Report</a></li>
+                    <li class="nav-item"><a href="{% url 'Deploy_8' %}" class="nav-link">Model</a></li>
+                    <li class="nav-item"><a href="{% url 'Air_db' %}" class="nav-link">Model_DB</a></li>
+                    <li class="nav-item"><a href="{% url 'users-profile' %}" class="nav-link">Profile</a></li>
+                    <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li>
+                </ul>
+            {% else %}
+                <a class="btn btn-primary ml-auto" href="{% url 'login' %}">Sign In</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        &copy; 2025 WSN Attack Detection | Developed by YourTeamName
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

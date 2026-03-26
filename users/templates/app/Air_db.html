@@ -1,0 +1,120 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Data Records</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #0b132b; /* Deep navy tech-style */
+            font-family: 'Roboto Mono', monospace;
+            color: #ffffff;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0px 0px 25px rgba(0, 255, 255, 0.2);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            text-align: center;
+            color: #00e5ff;
+            margin-bottom: 30px;
+        }
+
+        .table thead th {
+            background-color: #00e5ff;
+            color: #000;
+            font-size: 14px;
+            border: none;
+        }
+
+        .table tbody td {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 13px;
+            border: none;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .table-striped tbody tr:hover {
+            background-color: rgba(0, 229, 255, 0.1);
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+    <h2 class="mb-3 text-center">Network Congestion Records</h2>
+    <div class="table-responsive shadow-lg rounded">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Packet Arrival Rate (Packets/sec)</th>
+                    <th>Queue Length (Packets)</th>
+                    <th>Delay (ms)</th>
+                    <th>Drop Ratio (%)</th>
+                    <th>Jitter (ms)</th>
+                    <th>Prediction (Congestion Level)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.packet_arrival_rate }}</td>
+                        <td>{{ item.queue_length }}</td>
+                        <td>{{ item.delay }}</td>
+                        <td>{{ item.drop_ratio }}</td>
+                        <td>{{ item.jitter }}</td>
+                        <td>
+                            {% if item.label == "Normal" %}
+                                <span class="badge bg-success">{{ item.label }}</span>
+                            {% elif item.label == "Low Congestion" %}
+                                <span class="badge bg-warning text-dark">{{ item.label }}</span>
+                            {% elif item.label == "High Congestion" %}
+                                <span class="badge bg-danger">{{ item.label }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ item.label }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock content %}

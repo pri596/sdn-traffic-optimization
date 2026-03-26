@@ -1,0 +1,121 @@
+{% extends "users/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(to right, #eef2f3, #8e9eab);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .profile-container {
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        max-width: 750px;
+        margin: auto;
+        margin-top: 40px;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #343a40;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-custom {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .btn-reset {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-reset:hover {
+        background-color: #c82333;
+    }
+
+    a {
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="text-center">
+        <img class="profile-avatar" src="{{ user.profile.avatar.url }}" alt="Avatar"/>
+        <h3>{{ user.username|title }}'s Profile</h3>
+    </div>
+
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible mt-3" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row mt-4">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Username:</label>
+                    {{ user_form.username }}
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    {{ user_form.email }}
+                </div>
+                <div class="form-group">
+                    <a href="{% url 'password_change' %}">Change Password</a>
+                </div>
+                <div class="form-group">
+                    <label>Change Avatar:</label>
+                    {{ profile_form.avatar }}
+                </div>
+                <div class="form-group">
+                    <label>Bio:</label>
+                    {{ profile_form.bio }}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-dark btn-custom">Save Changes</button>
+            <button type="reset" class="btn btn-reset btn-custom ml-2">Reset</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

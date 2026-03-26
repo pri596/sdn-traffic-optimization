@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Congestion Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Open Sans', Arial, sans-serif;
+            padding: 20px;
+        }
+        .card {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+        .section-title {
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        .badge-large {
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    {% if predict == 'Normal_Congestion' %}
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                ✅ Normal Network Condition
+            </div>
+            <div class="card-body">
+                <span class="badge bg-success badge-large">Normal</span>
+                <p class="mt-3">Your network is operating within normal parameters. No significant congestion detected.</p>
+
+                <h5 class="section-title">Benefits:</h5>
+                <ul>
+                    <li>Low latency and stable communication.</li>
+                    <li>Minimal packet loss and jitter.</li>
+                    <li>Efficient bandwidth utilization.</li>
+                </ul>
+
+                <h5 class="section-title">Best Practices:</h5>
+                <ul>
+                    <li>Continue monitoring traffic periodically.</li>
+                    <li>Maintain current load balancing and routing policies.</li>
+                </ul>
+            </div>
+        </div>
+
+    {% elif predict == 'Mild_Congestion' %}
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                ⚠️ Mild_Congestion
+            </div>
+            <div class="card-body">
+                <span class="badge bg-warning text-dark badge-large"> Mild_Congestion</span>
+                <p class="mt-3">Slight network congestion detected. Performance is slightly degraded but still functional.</p>
+
+                <h5 class="section-title">Causes:</h5>
+                <ul>
+                    <li>Moderate traffic spike from multiple users.</li>
+                    <li>Temporary queue build-up in routers or switches.</li>
+                </ul>
+
+                <h5 class="section-title">Recommended Actions:</h5>
+                <ul>
+                    <li>Monitor network for traffic surges.</li>
+                    <li>Consider load balancing or rate limiting heavy users.</li>
+                    <li>Optimize routing paths if possible.</li>
+                </ul>
+
+                <h5 class="section-title">Prevention:</h5>
+                <ul>Low
+                    <li>Implement Quality of Service (QoS) for critical traffic.</li>
+                    <li>Upgrade bandwidth if congestion becomes frequent.</li>
+                </ul>
+            </div>
+        </div>
+
+    {% elif predict == 'Severe_Congestion' %}
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                🚨 Severe_Congestion 
+            </div>
+            <div class="card-body">
+                <span class="badge bg-danger badge-large">Severe_Congestion</span>
+                <p class="mt-3">Severe congestion detected! Network performance is heavily impacted.</p>
+
+                <h5 class="section-title">Symptoms:</h5>
+                <ul>
+                    <li>Very high delay and packet drop ratio.</li>
+                    <li>Noticeable jitter affecting real-time applications.</li>
+                    <li>Possible service outages or timeouts.</li>
+                </ul>
+
+                <h5 class="section-title">Immediate Actions:</h5>
+                <ul>
+                    <li>Identify and throttle or block heavy traffic sources.</li>
+                    <li>Enable traffic shaping and priority routing.</li>
+                    <li>Check for potential DDoS attacks or misconfigurations.</li>
+                </ul>
+
+                <h5 class="section-title">Long-Term Solutions:</h5>
+                <ul>
+                    <li>Upgrade network capacity and optimize topology.</li>
+                    <li>Deploy congestion control mechanisms (RED/WRED, ECN).</li>
+                    <li>Use network monitoring tools for proactive alerts.</li>
+                </ul>
+            </div>
+        </div>
+
+    
+    {% endif %}
+
+    <div class="text-center mt-3">
+        <a href="{% url 'Deploy_8' %}" class="btn btn-primary">🔄 Analyze Again</a>
+    </div>
+</div>
+
+</body>
+</html>

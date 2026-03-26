@@ -1,0 +1,232 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --main-color: #FEA116;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe0c1, #f5c790);
+    }
+
+    #FormContainer {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      width: 760px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    h1 {
+      color: var(--main-color);
+      font-size: 2.1rem;
+      font-weight: 800;
+      text-align: center;
+      grid-column: span 2;
+      margin-bottom: 10px;
+    }
+
+    .ImgContainer {
+        border-radius: 10px;
+        background: url('/static/img/cyber.jpg') no-repeat center center;
+        background-size: cover;
+}
+
+
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    form label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--main-color);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    form input {
+      padding: 10px 40px 10px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background-color: rgba(255, 255, 255, 0.7);
+      width: 100%;
+      outline: none;
+      color: #333;
+      transition: 0.3s ease;
+    }
+
+    form input:focus {
+      border: 1.5px solid var(--main-color);
+      background-color: #fff;
+      box-shadow: 0 0 0 3px #fea1163d;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 36px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--main-color);
+      font-size: 1rem;
+    }
+
+    form button {
+      align-self: center;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: var(--main-color);
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #e38f07;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .links a {
+      color: var(--main-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .links a:hover {
+      color: #d97800;
+    }
+
+    .alert {
+      background-color: #fff2e1;
+      border-left: 4px solid var(--main-color);
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .alert strong {
+      color: crimson;
+    }
+
+    @media (max-width: 800px) {
+      .ImgContainer {
+        display: none;
+      }
+
+      #FormContainer {
+        grid-template-columns: 1fr;
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 430px) {
+      #FormContainer {
+        width: 100%;
+        border-radius: 0;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="FormContainer">
+  <div class="ImgContainer"></div>
+  <form method="POST">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <div id="form_errors">
+        {% for key, value in form.errors.items %}
+          <strong>{{ value }}</strong><br>
+        {% endfor %}
+      </div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+
+    <h1>Login</h1>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      {{ form.username }}
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      {{ form.password }}
+      <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+    </div>
+
+    <button type="submit">Login</button>
+
+    <div class="links">
+      <a href="{% url 'users-register' %}">Create an Account</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  function togglePassword(icon) {
+    const input = icon.previousElementSibling;
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  }
+</script>
+
+</body>
+</html>
